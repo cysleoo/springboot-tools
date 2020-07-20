@@ -1,22 +1,18 @@
-package com.study.springboottools.util;
+package com.study.springboottools.gson;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.study.springboottools.domain.json.Dog;
 
-class JsonUtilsTest {
+class GsonTest {
 
   private Dog dog1;
   private Dog dog2;
