@@ -1,4 +1,4 @@
-package com.study.springboottools.gson;
+package com.study.springboottools.domain;
 
 import java.util.StringJoiner;
 

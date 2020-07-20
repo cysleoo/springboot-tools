@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.study.springboottools.domain.Dog;
 
 class GsonTest {
 
