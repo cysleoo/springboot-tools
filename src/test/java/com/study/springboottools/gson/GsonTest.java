@@ -13,7 +13,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.study.springboottools.domain.Dog;
 
+/**
+ * gson 测试
+ */
 class GsonTest {
+
 
   private Dog dog1;
   private Dog dog2;
