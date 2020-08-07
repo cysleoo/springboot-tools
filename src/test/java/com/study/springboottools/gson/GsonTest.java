@@ -107,4 +107,20 @@ class GsonTest {
     System.out.println(gson.toJson(intList));
   }
 
+  /**
+   * 测试 从JsonObject中获取JsonElement，并转化为其他类型
+   */
+  @Test
+  void testGetString(){
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("name","JackMa");
+    jsonObject.addProperty("age",32);
+    System.out.println(jsonObject.get("name").getAsString());
+    System.out.println(jsonObject.get("age").getAsInt());
+    System.out.println(jsonObject.get("age").getAsString());
+    System.out.println(jsonObject.getAsJsonPrimitive("name").toString());
+    System.out.println(jsonObject.getAsJsonPrimitive("age"));
+
+  }
+
 }
