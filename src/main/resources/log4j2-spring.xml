@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--该日志可默认项目使用: 每日生成一个日志文件，200M最大-->
+<configuration status="WARN" monitorInterval="1800">
+  <Properties>
+    <property name="appName">log-test</property>
+    <property name="basePath">./logs</property>
+    <!-- 控制台默认输出格式,"%-5level":日志级别,"%l":输出完整的错误位置,是小写的L,因为有行号显示,所以影响日志输出的性能 -->
+    <property name="console_log_pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %l - %m%n</property>
+    <!-- 日志文件默认输出格式,不带行号输出(行号显示会影响日志输出性能);%C:大写,类名;%M:方法名;%m:错误信息;%n:换行 -->
+    <property name="file_log_pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %C.%M - %m%n</property>
+    <!-- 日志默认压缩路径,将超过指定文件大小的日志,自动存入按"年月"建立的文件夹下面并进行压缩,作为存档 -->
+    <property name="rolling_filePattern">${basePath}/${appName}-%d{yyyy-MM-dd}-%i.log</property>
+  </Properties>
+
+  <!--定义appender -->
+  <appenders>
+    <!-- =======================================用来定义输出到控制台的配置======================================= -->
+    <Console name="Console" target="SYSTEM_OUT">
+      <!-- 设置控制台只输出level及以上级别的信息(onMatch),其他的直接拒绝(onMismatch)-->
+      <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+      <!-- 设置输出格式,不设置默认为:%m%n -->
+      <PatternLayout pattern="${console_log_pattern}"/>
+    </Console>
+    <!-- ================================打印root中指定的level级别以上的日志到文件================================ -->
+    <RollingFile name="RollingFile" fileName="${basePath}/${appName}.log" filePattern="${rolling_filePattern}">
+      <PatternLayout pattern="${file_log_pattern}"/>
+      <Policies>
+<!--        单位是filePattern的最小时间单位-->
+        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+<!--        这个限制对当前文件和已经历史文件都有效-->
+        <SizeBasedTriggeringPolicy size="200MB"/>
+      </Policies>
+      <!-- 日志默认同类型日志,同一文件夹下可以存放的数量,不设置此属性则默认为7个,filePattern最后要带%i才会生效 -->
+      <DefaultRolloverStrategy max="5"/>
+    </RollingFile>
+  </appenders>
+
+  <!--定义logger,只有定义了logger并引入的appender,appender才会生效-->
+  <loggers>
+    <!-- 设置打印sql语句配置开始,以下两者配合使用,可以优化日志的输出信息,减少一些不必要信息的输出 -->
+    <!-- 设置java.sql包下的日志只打印DEBUG及以上级别的日志,此设置可以支持sql语句的日志打印 -->
+    <logger name="java.sql" level="DEBUG" additivity="false">
+      <appender-ref ref="Console"/>
+    </logger>
+    <!-- 设置org.mybatis.spring包下的日志只打印WARN及以上级别的日志 -->
+    <logger name="org.mybatis.spring" level="WARN" additivity="false">
+      <appender-ref ref="Console"/>
+    </logger>
+    <!-- 设置org.mybatis.spring包下的日志只打印WARN及以上级别的日志 -->
+    <logger name="org.springframework" level="WARN" additivity="false">
+      <appender-ref ref="Console"/>
+    </logger>
+    <!-- 设置org.mybatis.spring包下的日志只打印WARN及以上级别的日志 -->
+    <logger name="com.qfx.workflow.service" level="WARN" additivity="false">
+      <appender-ref ref="Console"/>
+    </logger>
+    <!-- 设置打印sql语句配置结束 -->
+
+    <!--建立一个默认的root的logger-->
+    <root level="info">
+      <appender-ref ref="RollingFile"/>
+      <appender-ref ref="Console"/>
+    </root>
+  </loggers>
+
+</configuration>
